@@ -1,3 +1,9 @@
+"""
+A2A Messenger for inter-agent communication.
+
+Standard A2A messenger that enables communication between agents.
+"""
+
 import json
 from uuid import uuid4
 

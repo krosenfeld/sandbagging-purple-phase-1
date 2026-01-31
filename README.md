@@ -62,7 +62,7 @@ uv sync --extra test
 # Start your agent (uv or docker; see above)
 
 # Run tests against your running agent URL
-uv run pytest --agent-url http://localhost:9009
+uv run pytest --agent-url http://localhost:9019
 ```
 
 ## Publishing

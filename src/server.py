@@ -1,3 +1,9 @@
+"""
+Database Agent Server.
+
+A2A server that runs the database agent, which queries MCP to analyze model behavior.
+"""
+
 import argparse
 import uvicorn
 
@@ -14,32 +20,35 @@ from executor import Executor
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run the A2A agent.")
-    parser.add_argument("--host", type=str, default="127.0.0.1", help="Host to bind the server")
-    parser.add_argument("--port", type=int, default=9009, help="Port to bind the server")
-    parser.add_argument("--card-url", type=str, help="URL to advertise in the agent card")
+    parser = argparse.ArgumentParser(description="Run the database agent.")
+    parser.add_argument(
+        "--host", type=str, default="127.0.0.1", help="Host to bind the server"
+    )
+    parser.add_argument(
+        "--port", type=int, default=9019, help="Port to bind the server"
+    )
+    parser.add_argument(
+        "--card-url", type=str, help="URL to advertise in the agent card"
+    )
     args = parser.parse_args()
 
-    # Fill in your agent card
-    # See: https://a2a-protocol.org/latest/tutorials/python/3-agent-skills-and-card/
-    
     skill = AgentSkill(
-        id="",
-        name="",
-        description="",
-        tags=[],
-        examples=[]
+        id="database_auditor",
+        name="Database Auditor",
+        description="Auditor that queries the MCP database to make decisions.",
+        tags=["auditor", "database"],
+        examples=[],
     )
 
     agent_card = AgentCard(
-        name="",
-        description="",
+        name="Database Auditor",
+        description="Queries the MCP database to analyze model behavior.",
         url=args.card_url or f"http://{args.host}:{args.port}/",
-        version='1.0.0',
-        default_input_modes=['text'],
-        default_output_modes=['text'],
+        version="1.0.0",
+        default_input_modes=["text"],
+        default_output_modes=["text"],
         capabilities=AgentCapabilities(streaming=True),
-        skills=[skill]
+        skills=[skill],
     )
 
     request_handler = DefaultRequestHandler(
@@ -53,5 +62,5 @@ def main():
     uvicorn.run(server.build(), host=args.host, port=args.port)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
